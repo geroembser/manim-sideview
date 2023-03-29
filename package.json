@@ -12,7 +12,7 @@
     "name": "Gero Embser",
     "url": "https://github.com/geroembser"
   },
-  "version": "0.2.3",
+  "version": "0.2.4",
   "publisher": "geroembser",
   "engines": {
     "vscode": "^1.62.3"
@@ -95,6 +95,10 @@
         "manim-sideview.terminalCommand": {
           "type": "string",
           "description": "A terminal command to invoke after a render is called. Available variables are: {outputPath}, {sourcePath} and {sceneName}."
+        },
+        "manim-sideview.prePlaybackTerminalCommand": {
+          "type": "string",
+          "description": "A terminal command to invoke after a render is called, but before the auto playback is invoked. Available variables are: {outputPath}, {sourcePath} and {sceneName}."
         },
         "manim-sideview.autoPreview": {
           "type": "boolean",

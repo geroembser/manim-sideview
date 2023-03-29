@@ -441,7 +441,37 @@ export class ManimSideview {
     }
     cli.sendText(commandInput);
   }
+  
+  /**
+   * Execution of a generic terminal command only once.
+   *
+   * @param commandInput full command string with arguments
+   * @param cwd current working directory
+   * @param outputChannel output channel
+   */
+  async executeTerminalCommandAndWait(commandInput: string, cwd: string): Promise<vscode.TerminalExitStatus> {
+    const DefaultTerminalNameOnceAndWait = "manim-exec-once";
+    const cli = vscode.window.createTerminal({
+      name: DefaultTerminalNameOnceAndWait,
+      cwd: cwd,
+      hideFromUser: true,
+      message: "This is an internal terminal for executing post-render manim commands and wait until command exits!"
+    });
 
+    cli.sendText(commandInput + "; exit;");
+
+    return new Promise((resolve, reject) => {
+      const disposeToken = vscode.window.onDidCloseTerminal(t => {
+        disposeToken.dispose();
+        if (t.exitStatus && t.name === DefaultTerminalNameOnceAndWait) {
+          resolve(t.exitStatus);
+        }
+        else {
+          reject("Uuups… :))");
+        }
+      });
+    });
+  }
   /**
    * Formats a message from a process and makes it printable
    * @param message The message received from stdout/stderr
@@ -647,7 +677,31 @@ export class ManimSideview {
         return;
       }
 
+      const prePlaybackTerminalCommand = getUserConfiguration<string>("prePlaybackTerminalCommand");
+      if (prePlaybackTerminalCommand) {
+        Log.info(`Will start running the pre playback terminal command: ${prePlaybackTerminalCommand}`);
+        const prePlaybackTerminalCommandWithContext = insertContext(
+          {
+            "{outputPath}": fullMediaPath.fsPath,
+            "{sourcePath}": config.srcPath,
+            "{sceneName}": config.sceneName.trim()
+          },
+          prePlaybackTerminalCommand
+        );
+        Log.info(`With context: ${prePlaybackTerminalCommandWithContext}`);
+
+        await this.executeTerminalCommandAndWait(
+          prePlaybackTerminalCommandWithContext,
+          config.srcRootFolder
+        );
+        Log.info(`Did finish running the pre playback terminal command`);
+      }
+
+
+      await new Promise(r => setTimeout(r, 10));
+
       if (autoPreview) {
+        Log.info(`Will start auto playback…`);
         // we'll open a side view if we can find the file
         this.mediaPlayer.playMedia(
           fullMediaPath,
