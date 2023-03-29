@@ -4,16 +4,16 @@
   "icon": "assets/images/logo.png",
   "description": "Video/Image live previews and code snippets for manim.",
   "repository": {
-    "url": "https://github.com/Rickaym/Manim-Sideview",
+    "url": "https://github.com/geroembser/Manim-Sideview",
     "type": "git",
     "directory": "src"
   },
   "author": {
-    "name": "Ricky",
-    "url": "https://github.com/Rickaym"
+    "name": "Gero Embser",
+    "url": "https://github.com/geroembser"
   },
   "version": "0.2.3",
-  "publisher": "Rickaym",
+  "publisher": "geroembser",
   "engines": {
     "vscode": "^1.62.3"
   },
