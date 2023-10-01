@@ -12,7 +12,7 @@
     "name": "Gero Embser",
     "url": "https://github.com/geroembser"
   },
-  "version": "0.2.4",
+  "version": "0.2.5",
   "publisher": "geroembser",
   "engines": {
     "vscode": "^1.62.3"

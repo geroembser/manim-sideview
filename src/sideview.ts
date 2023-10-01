@@ -25,7 +25,7 @@ import { ManimPseudoTerm } from "./pseudoTerm";
 
 const CONFIG_SECTION = "CLI";
 const RELEVANT_CONF_FLAGS = ["quality", "media_dir", "video_dir", "images_dir", "frame_rate"];
-const RE_SCENE_CLASS = /class\s+(?<name>\w+)\(\w*Scene\w*\):/g;
+const RE_SCENE_CLASS = /class\s+(?<name>\w+)\([\w,\s]*Scene[\w,\s]*\):/g;
 const RE_CFG_OPTIONS = /(\w+)\s?:\s?([^ ]*)/g;
 const RE_FILE_READY = /File\s*ready\s*at[^']*'(?<path>[^']*)'/g;
 
